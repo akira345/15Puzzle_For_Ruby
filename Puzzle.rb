@@ -1,64 +1,90 @@
 class Puzzle
-  attr_accessor :gamen,:souwaku,:waku,:kouho,:status,:empty_no,:mode
+  attr_accessor :answers,:questions,:total_cnt,:side_cnt,:moves,:empty_no,:difficult
+  
   def initialize(in_num=9)
-    @waku=Math::sqrt(in_num).truncate
-    @souwaku=@waku*@waku
-    @gamen=Array.new
-    @kouho=Array.new
-    for i in 0..@souwaku
-      @gamen[i]=i
-    end 
-    @status=0
-    @empty_no=@souwaku  
+    @side_cnt=Math::sqrt(in_num).truncate
+    @total_cnt=@side_cnt*@side_cnt
+    @answers=Array.new
+    @questions=Array.new
+    @moves=Array.new
+    @@shuffle_cnt = 0
+    @empty_no=@total_cnt
+    @difficult="Normal"
+    generate_answer()  
+    @questions=Marshal.load(Marshal.dump(@answers))
   end
-  def chk_complate()
-    @gamen.each_with_index{|val,key|
-      return false if(val!=key) 
-    }
-    return true
+  def set_shuffle_cnt()
+#このレベル指定は列挙体のほうがいい気がする
+    case @difficult
+      when "Easy"
+        @@shuffle_cnt = @total_cnt * 3
+      when "Normal"
+        @@shuffle_cnt = @total_cnt * 6
+      when "Hard"
+        @@shuffle_cnt = @total_cnt *10
+   end
+  end
+  def generate_answer()
+    @answers=[*0..@total_cnt].to_a
+  end
+  def generate_question()
+    set_shuffle_cnt()
+    @@shuffle_cnt.times do
+        random_move()
+    end
+    if (chk_completion) then
+       random_move()
+    end
+  end
+  def chk_completion()
+    if (@answers == @questions) then
+      @moves=Array.new
+      return true
+    else
+      return false
+    end
   end 
   def set_move()
-    if @status==0 then
-      @kouho = Array.new
-      return
-    end
-    @kouho[1]=@empty_no-1
-    @kouho[2]=@empty_no+1
-    @kouho[3]=@empty_no+@waku
-    @kouho[4]=@empty_no-@waku
-    tmp=@empty_no % @waku
-    @kouho[4]=0 if (@kouho[4]<0)
-    @kouho[3]=0 if (@kouho[3]>@souwaku)
-    @kouho[2]=0 if (tmp==0)
-    @kouho[1]=0 if (tmp==1)
+    #動かせるセルを特定する
+    @moves[1]=@empty_no-1         #空白から右のセル
+    @moves[2]=@empty_no+1         #空白から左のセル
+    @moves[3]=@empty_no+@side_cnt #空白から下のセル
+    @moves[4]=@empty_no-@side_cnt #空白から上のセル
+    tmp=@empty_no % @side_cnt
+    #枠外にはみ出たものはゼロにする
+    @moves[4]=0 if (@moves[4]<0)
+    @moves[3]=0 if (@moves[3]>@total_cnt)
+    @moves[2]=0 if (tmp==0)
+    @moves[1]=0 if (tmp==1)
   end
   def random_move()
     set_move()
     while(true)
-      tmp=(rand(4)+1).truncate
-      if(@kouho[tmp]!=0) then
-        swap=@gamen[@kouho[tmp]]
-        @gamen[@kouho[tmp]]=@gamen[@empty_no]
-        @gamen[@empty_no]=swap
-        @empty_no=@kouho[tmp]
+      tmp=(rand(4)+1).truncate #動かすセル1-4をランダムにひとつ選ぶ
+      if(@moves[tmp]!=0) then
+        swap=@questions[@moves[tmp]]
+        @questions[@moves[tmp]]=@questions[@empty_no]
+        @questions[@empty_no]=swap
+        @empty_no=@moves[tmp]
         return
       end
     end
   end
-  def move(move_no)
-    return if(@status!=3)
-    if(move_no!="" and move_no!=0)then
-      for i in [1..4]
-        if @kouho[i]==move_no then
-          swap=@gamen[move_no]
-          @gamen[move_no]=@gamen[@empty_no]
-          @gamen[@empty_no]=swap
-          @empty_no=move_no
+  def move(in_move_no)
+    return if(chk_completion())
+  # if(in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt) then
+      set_move()
+      for i in [1..4] #４つの動かせるセルのどれかを選択されたか？
+        if @moves[i]==in_move_no then
+          swap=@questions[in_move_no]
+          @questions[in_move_no]=@questions[@empty_no]
+          @questions[@empty_no]=swap
+          @empty_no=in_move_no
         end
       end
-    end
+   # end
   end
-
+  private :random_move ,:set_shuffle_cnt
 end
   
   

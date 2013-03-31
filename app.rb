@@ -4,45 +4,31 @@ end
 enable :sessions
 def prosess()
   button=params[:button]
-  mode_Form=params[:mode_Form]
-  link=params[:link]
+  difficult=params[:difficult] || "Normal"
+  link=params[:link] || 0
 
-  if(session[:game].nil? || button=="GIVEUP") then
-    g=Puzzle.new(9)
-    session[:game]=g
+  if(session[:puzzle].nil? || button=="GIVEUP") then
+    puzzle=Puzzle.new(9)
+    session[:puzzle]=puzzle
   else
-    g=session[:game]
+    puzzle=session[:puzzle]
   end
   
   if(button=="START")then
-    g.status=1
-    g.mode=mode_Form
-    if(mode_Form==1)then
-      shfull=3
-    elsif(mode_Form==2)then
-      shfull=6
-    elsif(mode_Form==3)then
-      shfull=10
-    end
-    (g.souwaku*shfull).times do
-      g.random_move()
-      
-    end
-    if(g.chk_complate())then
-      g.random_move()
-    end
-    g.move(link)
+    puzzle.difficult=difficult
+    puzzle.generate_question()
+  end
 
-  end 
-  return g
+  #リンクから動かす
+  puzzle.move(link)
+  return puzzle
 end 
 post '/' do
-  @g=prosess()
+  @puzzle=prosess()
   erb :app  
  end
 get '/' do
-  link=params[:link]
-  @g=prosess()
+   @puzzle=prosess()
   erb :app
 end
 

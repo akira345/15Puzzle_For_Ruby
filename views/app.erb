@@ -7,48 +7,47 @@
     <body>
 <!--レベル表示-->
 <%
-  if(@g.mode==1) then
+  if(@puzzle.difficult=="Easy") then
 %>
   <%="やさしい"%>
-<%elsif(@g.mode==2) then%>
+<%elsif(@puzzle.difficult=="Normal") then%>
   <%="普通"%>
-<%elsif(@g.mode==3)then%>
+<%elsif(@puzzle.difficult=="Hard")then%>
   <%="難しい"%>
 <%end%>
 <%
-  if(@g.chk_complate())then
+  if(@puzzle.chk_completion())then
 %>
 <%="完成"%>
 <%
-@g.status=0
 else
-@g.status=3
+@puzzle.set_move()
 %>
-<%="完成"%>
+<%="未完成"%>
 <%end%>
         <table border=0>
             <tr>
                 <td>
                     <table border=1>
                         <%
-                        k = 0
-                        @g.set_move()
-                        @g.waku.times do
+                        cnt = 0
+                        
+                        @puzzle.side_cnt.times do
                             %>
                             <TR>
                                 <%
-                                @g.waku.times do
+                                @puzzle.side_cnt.times do
+                                        cnt=cnt+1
                                     %>
                                     <TD>
                                        <%
-                                        k=k+1
-                                        out = "<img src=./gif/" + @g.gamen[k].to_s + ".gif>"
-                                        @g.kouho.each  {|value|
-                                            if (k == value) then
-                                                out = "<a href=./?link="  + k.to_s + "><img src=./gif/" + @g.gamen[k].to_s + ".gif></a>"
+                                        out = "<img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif>"
+                                        @puzzle.moves.each  {|value|
+                                            if (cnt == value) then
+                                                out = "<a href=./?link="  + cnt.to_s + "><img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif></a>"
                                             end
                                         }
-          %>
+                                      %>
                                         <%=out%>
                                     </TD>
                                     <%
@@ -62,19 +61,21 @@ else
                 </TD>
                 <TD>　</TD>
                 <TD>
+<!--正解-->
                 <TABLE BORDER="1">
                        <%
-                        k = 0
-                        @g.waku.times do
+                        cnt = 0
+                        @puzzle.side_cnt.times do
                             %>
                             <TR>
                                 <%
-                                @g.waku.times do
-                                    k=k+1
+                                @puzzle.side_cnt.times do
+                                        cnt=cnt+1                                       
                                     %>
                                     <TD>
                                         <%
-                                        out = "<img src=./gif/" + k.to_s + ".gif>"
+                                        out = "<img src=./gif/" +@puzzle.answers[cnt].to_s + ".gif>"
+                                 
                                         %>
                                         <%=out%>
                                     </TD>
@@ -91,11 +92,11 @@ else
         </TABLE>
         <FORM method="POST" action="./">
             <%
-            if (@g.status != 3) then
+            if (@puzzle.chk_completion()) then
                 %>
-                <input type="radio" name="mode" value="1">やさしい
-                <input type="radio" name="mode" value="2" checked>普通
-                <input type="radio" name="mode" value="3">難しい
+                <input type="radio" name="difficult" value="Easy">やさしい
+                <input type="radio" name="difficult" value="Normal" checked>普通
+                <input type="radio" name="difficult" value="Hard">難しい
                 <br />
                 <input type="hidden" name="button" value="START">
                 <INPUT type="submit" name="submit" value="スタート">
@@ -106,7 +107,7 @@ else
                 <INPUT type="submit" name="submit" value="ギブアップ">
                 <%
             end
-            session[:game] = @g
+            session[:puzzle] = @puzzle
             %>
         </FORM>
    </body>
