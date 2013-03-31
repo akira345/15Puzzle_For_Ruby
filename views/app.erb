@@ -7,16 +7,16 @@
     <body>
 <!--レベル表示-->
 <%
-	if(@g.mode==1) then
+  if(@g.mode==1) then
 %>
-	<%="やさしい"%>
+  <%="やさしい"%>
 <%elsif(@g.mode==2) then%>
-	<%="普通"%>
+  <%="普通"%>
 <%elsif(@g.mode==3)then%>
-	<%="難しい"%>
+  <%="難しい"%>
 <%end%>
 <%
-	if(@g.chk_complate())then
+  if(@g.chk_complate())then
 %>
 <%="未完成"%>
 <%
@@ -48,7 +48,7 @@ else
                                                 out = "<a href=./?link="  + k + "><img src=./gif/" + @g.gamen[k].to_s + ".gif></a>"
                                             end
                                         }
-					%>
+          %>
                                         <%=out%>
                                     </TD>
                                     <%
@@ -76,16 +76,16 @@ else
                                         <%
                                         out = "<img src=./gif/" + k.to_s + ".gif>"
                                         %>
-					<%=out%>
-                                     	<%
-				end
-					%>
+          <%=out%>
+                                      <%
+        end
+          %>
                                     </TD>
                                     <%
                                 end
                                 %>
                             </TABLE>
-			</TD>
+      </TD>
             </TR>
         </TABLE>
         <FORM method="POST" action="./">
