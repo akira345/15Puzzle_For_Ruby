@@ -45,7 +45,7 @@ else
                                         out = "<img src=./gif/" + @g.gamen[k].to_s + ".gif>"
                                         @g.kouho.each  {|value|
                                             if (k == value) then
-                                                out = "<a href=./?link="  + k + "><img src=./gif/" + @g.gamen[k].to_s + ".gif></a>"
+                                                out = "<a href=./?link="  + k.to_s + "><img src=./gif/" + @g.gamen[k].to_s + ".gif></a>"
                                             end
                                         }
           %>
@@ -76,11 +76,12 @@ else
                                         <%
                                         out = "<img src=./gif/" + k.to_s + ".gif>"
                                         %>
-          <%=out%>
-                                      <%
-        end
-          %>
+                                        <%=out%>
                                     </TD>
+                                     <%
+                                       end
+                                      %>
+			</TR>
                                     <%
                                 end
                                 %>
