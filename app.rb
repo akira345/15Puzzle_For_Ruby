@@ -21,7 +21,7 @@ def prosess()
       shfull=3
     elsif(mode_Form==2)then
       shfull=6
-    elsif(mode_Form=3)then
+    elsif(mode_Form==3)then
       shfull=10
     end
     (g.souwaku*shfull).times do

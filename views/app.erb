@@ -18,11 +18,11 @@
 <%
   if(@g.chk_complate())then
 %>
-<%="未完成"%>
+<%="完成"%>
 <%
-@g.status=3
-else
 @g.status=0
+else
+@g.status=3
 %>
 <%="完成"%>
 <%end%>
