@@ -29,6 +29,11 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-nav (0.2.3)
+      pry (~> 0.9.10)
+    pry-remote (0.1.7)
+      pry (~> 0.9)
+      slop (~> 3.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -64,6 +69,9 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   guard-rspec
+  pry
+  pry-nav
+  pry-remote
   rspec
   sinatra
   sinatra-contrib

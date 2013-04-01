@@ -72,17 +72,17 @@ class Puzzle
   end
   def move(in_move_no)
     return if(chk_completion())
-  # if(in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt) then
+   if(in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt) then
       set_move()
-      for i in [1..4] #４つの動かせるセルのどれかを選択されたか？
-        if @moves[i]==in_move_no then
-          swap=@questions[in_move_no]
-          @questions[in_move_no]=@questions[@empty_no]
+      (1..4).each {|i| #４つの動かせるセルのどれかを選択されたか？
+        if @moves[i]==in_move_no.to_i then
+          swap=@questions[in_move_no.to_i]
+          @questions[in_move_no.to_i]=@questions[@empty_no]
           @questions[@empty_no]=swap
-          @empty_no=in_move_no
+          @empty_no=in_move_no.to_i
         end
-      end
-   # end
+      }
+    end
   end
   private :random_move ,:set_shuffle_cnt
 end
