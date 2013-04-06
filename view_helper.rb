@@ -1,11 +1,11 @@
 module ViewHelper
   def show_difficult(difficult)
     case difficult
-    when "Easy"
+    when :Easy
       "やさしい"
-    when "Normal"
+    when :Normal
       "普通"
-    when "Hard"
+    when :Hard
       "難しい"
     end
   end

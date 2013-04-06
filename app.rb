@@ -4,7 +4,7 @@ end
 enable :sessions
 def prosess()
   button=params[:button]
-  difficult=params[:difficult] || "Normal"
+  difficult=(params[:difficult] || :Normal).to_sym
   link=params[:link] || 0
 
   if(session[:puzzle].nil? || button=="GIVEUP") then
