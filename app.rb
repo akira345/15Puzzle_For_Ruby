@@ -22,7 +22,11 @@ def prosess()
   #リンクから動かす
   puzzle.move(link)
   return puzzle
-end 
+end
+require './view_helper.rb'
+helpers do
+  include ViewHelper
+end
 post '/' do
   @puzzle=prosess()
   erb :app  

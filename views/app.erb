@@ -6,13 +6,7 @@
     </head>
     <body>
         <!--レベル表示-->
-        <% if (@puzzle.difficult=="Easy") then %>
-            やさしい
-        <% elsif (@puzzle.difficult=="Normal") then %>
-            普通
-        <% elsif (@puzzle.difficult=="Hard") then %>
-            難しい
-        <% end %>
+        <%= show_difficult(@puzzle.difficult) %>
         <% if (@puzzle.chk_completion()) then %>
             完成
         <% else %>
