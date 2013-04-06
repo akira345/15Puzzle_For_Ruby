@@ -5,110 +5,77 @@
         </title>
     </head>
     <body>
-<!--レベル表示-->
-<%
-  if(@puzzle.difficult=="Easy") then
-%>
-  <%="やさしい"%>
-<%elsif(@puzzle.difficult=="Normal") then%>
-  <%="普通"%>
-<%elsif(@puzzle.difficult=="Hard")then%>
-  <%="難しい"%>
-<%end%>
-<%
-  if(@puzzle.chk_completion())then
-%>
-<%="完成"%>
-<%
-else
-@puzzle.set_move()
-%>
-<%="未完成"%>
-<%end%>
+        <!--レベル表示-->
+        <% if (@puzzle.difficult=="Easy") then %>
+            やさしい
+        <% elsif (@puzzle.difficult=="Normal") then %>
+            普通
+        <% elsif (@puzzle.difficult=="Hard") then %>
+            難しい
+        <% end %>
+        <% if (@puzzle.chk_completion()) then %>
+            完成
+        <% else %>
+            <% @puzzle.set_move() %>
+            未完成
+        <% end %>
+
         <table border=0>
             <tr>
                 <td>
                     <table border=1>
-                        <%
-                        cnt = 0
-                        
-                        @puzzle.side_cnt.times do
-                            %>
-                            <TR>
-                                <%
-                                @puzzle.side_cnt.times do
-                                        cnt=cnt+1
-                                    %>
-                                    <TD>
-                                       <%
-                                        out = "<img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif>"
-                                        @puzzle.moves.each  {|value|
-                                            if (cnt == value) then
-                                                out = "<a href=./?link="  + cnt.to_s + "><img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif></a>"
-                                            end
-                                        }
-                                      %>
-                                        <%=out%>
-                                    </TD>
-                                    <%
-                                end
-                                %>
-                             </TR>
-                            <%
-                        end
-                        %>
-                    </TABLE>
-                </TD>
-                <TD>　</TD>
-                <TD>
-<!--正解-->
-                <TABLE BORDER="1">
-                       <%
-                        cnt = 0
-                        @puzzle.side_cnt.times do
-                            %>
-                            <TR>
-                                <%
-                                @puzzle.side_cnt.times do
-                                        cnt=cnt+1                                       
-                                    %>
-                                    <TD>
-                                        <%
-                                        out = "<img src=./gif/" +@puzzle.answers[cnt].to_s + ".gif>"
-                                 
-                                        %>
-                                        <%=out%>
-                                    </TD>
-                                     <%
-                                       end
-                                      %>
-			</TR>
-                                    <%
-                                end
-                                %>
-                            </TABLE>
-      </TD>
-            </TR>
-        </TABLE>
-        <FORM method="POST" action="./">
-            <%
-            if (@puzzle.chk_completion()) then
-                %>
+                        <% cnt = 0 %>
+                        <% @puzzle.side_cnt.times do %>
+                            <tr>
+                                <% @puzzle.side_cnt.times do %>
+                                    <% cnt=cnt+1 %>
+                                    <td>
+                                        <% out = "<img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif>" %>
+                                        <% @puzzle.moves.each    do |value| %>
+                                            <% if (cnt == value) then %>
+                                                <% out = "<a href=./?link="    + cnt.to_s + "><img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif></a>" %>
+                                            <% end %>
+                                        <% end %>
+                                        <%= out %>
+                                    </td>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    </table>
+                </td>
+                <td>　</td>
+                <td>
+                    <!--正解-->
+                    <table border="1">
+                        <% cnt = 0 %>
+                        <% @puzzle.side_cnt.times do %>
+                            <tr>
+                                <% @puzzle.side_cnt.times do %>
+                                    <% cnt=cnt+1 %>
+                                    <td>
+                                        <% out = "<img src=./gif/" +@puzzle.answers[cnt].to_s + ".gif>" %>
+                                        <%= out %>
+                                    </td>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <form method="POST" action="./">
+            <% if (@puzzle.chk_completion()) then %>
                 <input type="radio" name="difficult" value="Easy">やさしい
                 <input type="radio" name="difficult" value="Normal" checked>普通
                 <input type="radio" name="difficult" value="Hard">難しい
                 <br />
                 <input type="hidden" name="button" value="START">
                 <INPUT type="submit" name="submit" value="スタート">
-                <%
-            else
-                %>
+            <% else %>
                 <input type="hidden" name="button" value="GIVEUP">
                 <INPUT type="submit" name="submit" value="ギブアップ">
-                <%
-            end
-            session[:puzzle] = @puzzle
-            %>
-        </FORM>
-   </body>
+            <% end %>
+            <% session[:puzzle] = @puzzle %>
+        </form>
+    </body>
 </html>
