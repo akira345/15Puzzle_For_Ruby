@@ -9,20 +9,19 @@ class Puzzle
     @moves=Array.new
     @@shuffle_cnt = 0
     @empty_no=@total_cnt
-    @difficult="Normal"
+    @difficult=:Normal
     generate_answer()  
     @questions=Marshal.load(Marshal.dump(@answers))
   end
   def set_shuffle_cnt()
-#このレベル指定は列挙体のほうがいい気がする
     case @difficult
-      when "Easy"
-        @@shuffle_cnt = @total_cnt * 3
-      when "Normal"
-        @@shuffle_cnt = @total_cnt * 6
-      when "Hard"
-        @@shuffle_cnt = @total_cnt *10
-   end
+    when :Easy
+      @@shuffle_cnt = @total_cnt * 3
+    when :Noraml
+      @@shuffle_cnt = @total_cnt * 6
+    when :Hard
+      @@shuffle_cnt = @total_cnt *10
+    end
   end
   def generate_answer()
     @answers=[*0..@total_cnt].to_a

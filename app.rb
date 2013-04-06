@@ -4,7 +4,7 @@ end
 enable :sessions
 def prosess()
   button=params[:button]
-  difficult=params[:difficult] || "Normal"
+  difficult=(params[:difficult] || :Normal).to_sym
   link=params[:link] || 0
 
   if(session[:puzzle].nil? || button=="GIVEUP") then
@@ -22,7 +22,11 @@ def prosess()
   #リンクから動かす
   puzzle.move(link)
   return puzzle
-end 
+end
+require './view_helper.rb'
+helpers do
+  include ViewHelper
+end
 post '/' do
   @puzzle=prosess()
   erb :app  
