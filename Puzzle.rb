@@ -31,11 +31,11 @@ class Puzzle
     @@shuffle_cnt.times do
         random_move()
     end
-    if (chk_completion) then
+    if (complete?) then
        random_move()
     end
   end
-  def chk_completion()
+  def complete?()
     if (@answers == @questions) then
       @moves=Array.new
       return true
@@ -70,7 +70,7 @@ class Puzzle
     end
   end
   def move(in_move_no)
-    return if(chk_completion())
+    return if(complete?())
    if(in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt) then
       set_move()
       (1..4).each {|i| #４つの動かせるセルのどれかを選択されたか？

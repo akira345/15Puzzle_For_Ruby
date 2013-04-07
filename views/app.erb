@@ -7,7 +7,7 @@
     <body>
         <!--レベル表示-->
         <%= show_difficult(@puzzle.difficult) %>
-        <% if (@puzzle.chk_completion()) then %>
+        <% if (@puzzle.complete?()) then %>
             完成
         <% else %>
             <% @puzzle.set_move() %>
@@ -58,7 +58,7 @@
             </tr>
         </table>
         <form method="POST" action="./">
-            <% if (@puzzle.chk_completion()) then %>
+            <% if (@puzzle.complete?()) then %>
                 <input type="radio" name="difficult" value="Easy">やさしい
                 <input type="radio" name="difficult" value="Normal" checked>普通
                 <input type="radio" name="difficult" value="Hard">難しい
