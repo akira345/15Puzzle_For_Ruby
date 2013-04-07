@@ -27,6 +27,6 @@ describe ViewHelper do
   end
 
   describe '#number_image' do
-    it { @helper.number_image(1).should eq('<img src=./gif/1.gif>') }
+    it { @helper.number_image(1).should eq('<img src="/gif/1.gif">') }
   end
 end
