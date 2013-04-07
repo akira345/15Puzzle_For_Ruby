@@ -17,7 +17,7 @@ class Puzzle
     case @difficult
     when :Easy
       @@shuffle_cnt = @total_cnt * 3
-    when :Noraml
+    when :Normal
       @@shuffle_cnt = @total_cnt * 6
     when :Hard
       @@shuffle_cnt = @total_cnt *10

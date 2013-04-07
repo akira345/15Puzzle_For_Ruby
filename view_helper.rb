@@ -1,3 +1,4 @@
+# encoding: utf-8
 module ViewHelper
   def show_difficult(difficult)
     case difficult
@@ -10,3 +11,5 @@ module ViewHelper
     end
   end
 end
+
+
