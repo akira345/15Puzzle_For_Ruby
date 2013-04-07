@@ -24,10 +24,11 @@
                                 <% @puzzle.side_cnt.times do %>
                                     <% cnt=cnt+1 %>
                                     <td>
-                                        <% out = "<img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif>" %>
+                                        <% number = @puzzle.questions[cnt] %>
+                                        <% out = number_image(number) %>
                                         <% @puzzle.moves.each    do |value| %>
                                             <% if (cnt == value) then %>
-                                                <% out = "<a href=./?link="    + cnt.to_s + "><img src=./gif/" + @puzzle.questions[cnt].to_s + ".gif></a>" %>
+                                                <% out = "<a href=./?link="    + cnt.to_s + ">" + number_image(number) +"</a>" %>
                                             <% end %>
                                         <% end %>
                                         <%= out %>
@@ -47,7 +48,8 @@
                                 <% @puzzle.side_cnt.times do %>
                                     <% cnt=cnt+1 %>
                                     <td>
-                                        <% out = "<img src=./gif/" +@puzzle.answers[cnt].to_s + ".gif>" %>
+                                        <% number = @puzzle.answers[cnt] %>
+                                        <% out = number_image(number) %>
                                         <%= out %>
                                     </td>
                                 <% end %>
