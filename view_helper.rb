@@ -12,7 +12,7 @@ module ViewHelper
   end
 
   def number_image(number)
-    "<img src=\"/gif/" + number.to_s + ".gif\">"
+    %Q!<img src="/gif/#{number}.gif">!
   end
 end
 
