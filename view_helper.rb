@@ -10,6 +10,10 @@ module ViewHelper
       "難しい"
     end
   end
+
+  def number_image(number)
+    %Q!<img src="/gif/#{number}.gif">!
+  end
 end
 
 
