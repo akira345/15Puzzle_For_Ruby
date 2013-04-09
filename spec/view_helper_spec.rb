@@ -25,4 +25,8 @@ describe ViewHelper do
       it { @helper.show_difficult(:Hard).should eq("難しい") }
     end
   end
+
+  describe '#number_image' do
+    it { @helper.number_image(1).should eq('<img src="/gif/1.gif">') }
+  end
 end
