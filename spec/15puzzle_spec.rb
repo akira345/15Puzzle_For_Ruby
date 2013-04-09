@@ -11,6 +11,6 @@ describe Puzzle do
   it 'question配列とansers配列が一致しない' do
     @puzzle.generate_answer()
     @puzzle.generate_question()
-    @puzzle.answers.to_set.should_not == @puzzle.questions.to_set
+    @puzzle.answers.should_not == @puzzle.questions
   end
 end
