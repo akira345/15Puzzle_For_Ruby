@@ -24,9 +24,9 @@ def prosess()
   return puzzle
 end
 require './view_helper.rb'
-#helpers do
+helpers do
   include ViewHelper
-#end
+end
 post '/' do
   @puzzle=prosess()
   erb :app  
