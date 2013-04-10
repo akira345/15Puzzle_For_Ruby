@@ -10,7 +10,7 @@ class Puzzle
     @@shuffle_cnt = 0
     @empty_no=@total_cnt
     @difficult=:Normal
-    generate_answer()  
+    generate_answer
     @questions=Marshal.load(Marshal.dump(@answers))
   end
   def set_shuffle_cnt()
@@ -27,16 +27,14 @@ class Puzzle
     @answers=[*0..@total_cnt].to_a
   end
   def generate_question()
-    set_shuffle_cnt()
+    set_shuffle_cnt
     @@shuffle_cnt.times do
-        random_move()
+        random_move
     end
-    if (complete?) then
-       random_move()
-    end
+    random_move if complete?
   end
   def complete?()
-    if (@answers == @questions) then
+    if (@answers == @questions)
       @moves=Array.new
       return true
     else
@@ -57,33 +55,34 @@ class Puzzle
     @moves[1]=0 if (tmp==1)
   end
   def random_move()
-    set_move()
+    set_move
     while(true)
       tmp=(rand(4)+1).truncate #動かすセル1-4をランダムにひとつ選ぶ
-      if(@moves[tmp]!=0) then
-        swap=@questions[@moves[tmp]]
-        @questions[@moves[tmp]]=@questions[@empty_no]
-        @questions[@empty_no]=swap
-        @empty_no=@moves[tmp]
+      if (@moves[tmp]!=0)
+        swap_empty_cell(@moves[tmp])
         return
       end
     end
   end
   def move(in_move_no)
-    return if(complete?())
-   if(in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt) then
-      set_move()
+    return if complete?
+   if (in_move_no.to_i >=1 and in_move_no.to_i <=@total_cnt)
+      set_move
       (1..4).each {|i| #４つの動かせるセルのどれかを選択されたか？
-        if @moves[i]==in_move_no.to_i then
-          swap=@questions[in_move_no.to_i]
-          @questions[in_move_no.to_i]=@questions[@empty_no]
-          @questions[@empty_no]=swap
-          @empty_no=in_move_no.to_i
+        if (@moves[i]==in_move_no.to_i)
+          swap_empty_cell(in_move_no.to_i)
         end
       }
     end
   end
-  private :random_move ,:set_shuffle_cnt
+  def swap_empty_cell(in_move_no)
+    tmp=@questions[in_move_no.to_i]
+    @questions[in_move_no.to_i]=@questions[@empty_no]
+    @questions[@empty_no]=tmp
+    @empty_no=in_move_no.to_i
+  end
+
+  private :random_move ,:set_shuffle_cnt ,:swap
 end
   
   
