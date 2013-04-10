@@ -82,7 +82,7 @@ class Puzzle
     @empty_no=in_move_no.to_i
   end
 
-  private :random_move ,:set_shuffle_cnt ,:swap
+  private :random_move ,:set_shuffle_cnt ,:swap_empty_cell
 end
   
   
