@@ -60,16 +60,14 @@
             </tr>
         </table>
         <% if @puzzle.complete? %>
-        <form method="POST" action="/play/">
+        <form method="POST" action="/start/">
                 <input type="radio" name="difficult" value="Easy">やさしい
                 <input type="radio" name="difficult" value="Normal" checked>普通
                 <input type="radio" name="difficult" value="Hard">難しい
                 <br />
-                <input type="hidden" name="button" value="START">
                 <INPUT type="submit" name="submit" value="スタート">
         <% else %>
-        <form method="POST" action="/">
-                <input type="hidden" name="button" value="GIVEUP">
+        <form method="POST" action="/giveup/">
                 <INPUT type="submit" name="submit" value="ギブアップ">
         <% end %>
             <% session[:puzzle] = @puzzle %>

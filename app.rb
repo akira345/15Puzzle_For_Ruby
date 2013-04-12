@@ -4,36 +4,32 @@ end
 enable :sessions
 
 def prosess()
-  button=params[:button]
-  difficult=(params[:difficult] || :Normal).to_sym
-  link=params[:link] || 0
-
-  if(session[:puzzle].nil? || button=="GIVEUP") then
-    puzzle=Puzzle.new(9)
-    session[:puzzle]=puzzle
-  else
-    redirect '/play'
-  end
-  return puzzle
+  return init_game if session[:puzzle].nil?
+  redirect '/play/'
 end
 def play()
-  
-  button=params[:button]
-  difficult=(params[:difficult] || :Normal).to_sym
   link=params[:link] || 0
-  if(session[:puzzle].nil? || button=="GIVEUP") then
-    redirect '/'
-  else
-    puzzle=session[:puzzle]
-  end
-  if(button=="START")then
-    puzzle.difficult=difficult
-    puzzle.generate_question()
-  end
-
-  #リンクから動かす
+  redirect '/' if session[:puzzle].nil?
+  puzzle=session[:puzzle]
   puzzle.move(link)
   return puzzle
+end
+def init_game()
+  puzzle=Puzzle.new(9)
+  session[:puzzle]=puzzle
+  return puzzle
+end
+def start()
+  difficult=(params[:difficult] || :Normal).to_sym
+  redirect '/' if session[:puzzle].nil?
+  puzzle=session[:puzzle]
+  puzzle.difficult=difficult
+  puzzle.generate_question()
+  return puzzle
+end
+def giveup()
+  session[:puzzle]=nil
+  redirect '/'
 end
 require './view_helper.rb'
 helpers do
@@ -44,16 +40,18 @@ post '/' do
   erb :app  
  end
 get '/' do
-   @puzzle=prosess()
-  erb :app
-end
-post '/play/' do
-  @puzzle=play()
+  @puzzle=prosess()
   erb :app
 end
 get '/play/' do
   @puzzle=play()
   erb :app
 end
-
-
+post '/giveup/' do
+  @puzzle=giveup()
+  erb :app
+end
+post '/start/' do
+  @puzzle=start()
+  erb :app
+end
