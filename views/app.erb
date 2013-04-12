@@ -28,7 +28,7 @@
                                         <% out = number_image(number) %>
                                         <% @puzzle.moves.each    do |value| %>
                                             <% if (cnt == value) then %>
-                                                <% out = "<a href=./?link="    + cnt.to_s + ">" + number_image(number) +"</a>" %>
+                                                <% out = "<a href=/play/?link="    + cnt.to_s + ">" + number_image(number) +"</a>" %>
                                             <% end %>
                                         <% end %>
                                         <%= out %>
@@ -59,18 +59,19 @@
                 </td>
             </tr>
         </table>
-        <form method="POST" action="./">
-            <% if (@puzzle.complete?()) then %>
+        <% if @puzzle.complete? %>
+        <form method="POST" action="/play/">
                 <input type="radio" name="difficult" value="Easy">やさしい
                 <input type="radio" name="difficult" value="Normal" checked>普通
                 <input type="radio" name="difficult" value="Hard">難しい
                 <br />
                 <input type="hidden" name="button" value="START">
                 <INPUT type="submit" name="submit" value="スタート">
-            <% else %>
+        <% else %>
+        <form method="POST" action="/">
                 <input type="hidden" name="button" value="GIVEUP">
                 <INPUT type="submit" name="submit" value="ギブアップ">
-            <% end %>
+        <% end %>
             <% session[:puzzle] = @puzzle %>
         </form>
     </body>
